@@ -9,7 +9,7 @@ public class MapReader {
 		
 		String inputFile = args[0]; 
 		String outputFile = args[1]; 
-		Vector<String> file = ReadFile(inputFile); 
+		Vector<String> file = ReadFile(inputFile);  
 		
 		
 	}
