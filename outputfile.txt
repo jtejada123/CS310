@@ -1,0 +1,11 @@
+Destination    Flight Route from P    Total Cost
+Destination    Flight Route from P W 200    Total Cost
+Destination    Flight Route from P R 300    Total Cost
+Destination    Flight Route from R X 200    Total Cost
+Destination    Flight Route from Q X 375     Total Cost
+Destination    Flight Route from W S 250     Total Cost
+Destination    Flight Route from S T 300    Total Cost
+Destination    Flight Route from T W 350    Total Cost
+Destination    Flight Route from W Y 500    Total Cost
+Destination    Flight Route from Y Z 450    Total Cost
+Destination    Flight Route from Y R 600    Total Cost
