@@ -9,4 +9,4 @@
 	<target name="compile">
 		<javac includeantruntime="false" srcdir="./src" destdir="staging"/>
 	</target>
-</project>
+</project> 
