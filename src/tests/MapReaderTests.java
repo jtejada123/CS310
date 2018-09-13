@@ -11,7 +11,7 @@ public class MapReaderTests extends TestCase {
 	public void testReadFile() throws IOException {
 		
 		MapReader mr = new MapReader();
-		Vector <String> file = MapReader.ReadFile("inputfile.txt");
+		Vector <String> file = MapReader.ReadFile("inputfile.txt", "outputfile.txt");
 		assertEquals(file.get(0), "P");
 		
 	}

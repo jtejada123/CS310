@@ -9,12 +9,12 @@ public class MapReader {
 		
 		String inputFile = args[0]; 
 		String outputFile = args[1]; 
-		Vector<String> file = ReadFile(inputFile);  
+		Vector<String> file = ReadFile(inputFile, outputFile);  
 		
 		
 	}
 	
-	public static Vector<String> ReadFile (String fileName) throws IOException {
+	public static Vector<String> ReadFile (String fileName, String outputFile) throws IOException {
 		
 		BufferedReader in = null; 
 		BufferedWriter out = null; 
@@ -24,8 +24,8 @@ public class MapReader {
 		
 		try {
 			in = new BufferedReader(new FileReader(fileName));
-//			writer = new FileWriter(outputFile);
-//			out = new BufferedWriter(writer);
+			writer = new FileWriter(outputFile);
+			out = new BufferedWriter(writer);
 			
 			while( (line = in.readLine()) != null) {
 				
@@ -36,6 +36,8 @@ public class MapReader {
 //				out.write("Destination    Flight Route from " + originCity + "    Total Cost");
 //				out.newLine();
 			}
+			
+			out.write("Origin City is: " + vec.get(0));
 			
 		} finally {
 			if (in != null) {
