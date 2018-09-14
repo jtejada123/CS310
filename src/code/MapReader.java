@@ -5,6 +5,12 @@ import java.util.*;
 
 public class MapReader {
 	
+	
+/*  
+ 	** This class just contains the main function to read from the command line. 
+	** Also handles all File I/O. 
+*/
+			
 	public static void main(String args[]) throws IOException {
 		
 		String inputFile = args[0]; 
@@ -16,6 +22,7 @@ public class MapReader {
 		
 	}
 	
+	//reads file and stores all lines into vector
 	public static Vector<String> readFile (String fileName) throws IOException {
 		
 		BufferedReader in = null; 
@@ -43,10 +50,15 @@ public class MapReader {
 		return vec; 
 	}
 	
-	public static void writeFile(String file, Vector<String> vec) throws IOException {
+	// writes output file
+	public static void writeFile(String file, Vector<String> mapInfo) throws IOException {
 		
 		BufferedWriter out = null; 
 		FileWriter writer = null; 
+		Parser p = new Parser(); 
+		Vector<Flight> display = null; 
+		
+		display = p.parse(mapInfo); 
 		
 		try {
 			writer = new FileWriter(file);
@@ -54,9 +66,16 @@ public class MapReader {
 			
 /*______________Output File Display_______________________*/
 			
-			out.write("Destination    Flight Route from " + vec.get(0) + "    Total Cost");
-			out.newLine();		
-		
+		out.write("Destination    Flight Route from " + mapInfo.get(0) + "    Total Cost");
+		out.newLine();	
+			
+//		int i = 0; 
+//		while( i < display.size() ) {
+//			
+//			out.write("");
+//			i++; 
+//		}
+//		
 			
 /*______________Output File Display_______________________*/
 	
@@ -65,7 +84,5 @@ public class MapReader {
 				out.close();
 			}
 		}
-
 	}
-	
 }
