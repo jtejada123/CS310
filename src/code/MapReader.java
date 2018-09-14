@@ -9,46 +9,63 @@ public class MapReader {
 		
 		String inputFile = args[0]; 
 		String outputFile = args[1]; 
-		Vector<String> file = ReadFile(inputFile, outputFile);  
+		Vector<String> flightInfo = readFile(inputFile);  
+		
+		writeFile(outputFile, flightInfo); 
 		
 		
 	}
 	
-	public static Vector<String> ReadFile (String fileName, String outputFile) throws IOException {
+	public static Vector<String> readFile (String fileName) throws IOException {
 		
 		BufferedReader in = null; 
-		BufferedWriter out = null; 
-		FileWriter writer = null; 
+		
 		String line; 
 		Vector<String> vec = new Vector<String>(); 
 		
 		try {
 			in = new BufferedReader(new FileReader(fileName));
-			writer = new FileWriter(outputFile);
-			out = new BufferedWriter(writer);
 			
+			
+			//read through file, store into vector line by line
 			while( (line = in.readLine()) != null) {
 				
 				vec.add(line); 
-				
-				
-				
-//				out.write("Destination    Flight Route from " + originCity + "    Total Cost");
-//				out.newLine();
 			}
-			
-			out.write("Origin City is: " + vec.get(0));
 			
 		} finally {
 			if (in != null) {
 				in.close();
 			}
+			
+		}
+		
+		return vec; 
+	}
+	
+	public static void writeFile(String file, Vector<String> vec) throws IOException {
+		
+		BufferedWriter out = null; 
+		FileWriter writer = null; 
+		
+		try {
+			writer = new FileWriter(file);
+			out = new BufferedWriter(writer);
+			
+/*______________Output File Display_______________________*/
+			
+			out.write("Destination    Flight Route from " + vec.get(0) + "    Total Cost");
+			out.newLine();		
+		
+			
+/*______________Output File Display_______________________*/
+	
+		} finally {
 			if (out != null) {
 				out.close();
 			}
 		}
-		
-		return vec; 
+
 	}
 	
 }

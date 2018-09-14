@@ -2,11 +2,18 @@
 
 <project default="run" name="Project1">
 	<target name="run" depends="compile">
-		<java classname="com.za.code.Demo">
-			<classpath path="staging"/>
-		</java>
 	</target>
 	<target name="compile">
-		<javac includeantruntime="false" srcdir="./src" destdir="staging"/>
+		<javac includeantruntime="false" srcdir="./src" destdir="staging" classpath="C:/Applications/Eclipse.app/Contents/Eclipse/plugins/org.junit_4.12.0.v201504281640/junit.jar" />
+		
+		<junit>
+			<test name="tests.MapReaderTests" />
+			<classpath location="lib/junit_4.12.0.v201504281640/junit.jar">
+				<pathelement location="C:/Applications/Eclipse.app/Contents/Eclipse/plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
+				<pathelement location="staging" />
+			</classpath>
+	
+		</junit>
+		
 	</target>
 </project> 
