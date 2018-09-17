@@ -33,9 +33,8 @@ public class Parser {
 			//City departureCity = getCity(departureCityString, cities);
 			String destinationCity = flight.substring(2, 3); 
 			Integer flightCost = Integer.parseInt(flight.substring(4).replaceAll("\\s", ""));
-			City dep = new City();
-			City dest = new City();
-					//replaceAll("\\s", ""); 
+			City dep;
+			//replaceAll("\\s", ""); 
 			
 			// if departure city isn't in 'cities' vector yet then add it, otherwise skip
 //	 		if ( getCity(departureCity, cities) == null) {
@@ -53,13 +52,14 @@ public class Parser {
 				
 				// Check if dep is origin city
 				if( getCity(departureCity, cities) == null ) {
+					dep = new City();
 					dep.make(departureCity, null, 0);
 				}
 				else {
 					dep = getCity(departureCity, cities);
 				}
 				
-				
+				City dest = new City ();
 				dest.make(destinationCity, dep, flightCost);
 				cities.add(dest);
 			}
@@ -76,7 +76,7 @@ public class Parser {
 		
 		for(int i = 0; i < vec.size(); i++) {
 				
-			if (s == vec.get(i).getName()){
+			if ( s.equals(vec.get(i).getName()) ){
 				return vec.get(i); 
 			}
 //			else {
@@ -96,26 +96,86 @@ public class Parser {
 	public Vector<String> printInfo (Vector <City> v){
 		
 		Vector<String> print = new Vector<String>(); 
+		String originCity = v.get(0).getName().replaceAll("\\s", "");
 		
-		print.add("Destination    Flight Route from "+ v.get(0).getName() + "    Total Cost");
+		print.add("Destination    Flight Route from "+ originCity + "    Total Cost");
 		
 		
 		for (int i = 1; i < v.size(); i++) {
 			
 			City f = v.get(i); 
-			String name = f.getName(); 
-			String prev = f.getPrevious().getName();
-			String cost = f.getCost().toString();
+//			System.out.println("Name: " + f.getName());
+//			System.out.println("Previous: " + f.getPrevious().getName());
+
 			
-			if (prev == v.get(0).getName()) {
-				print.add(name + "                   " + prev + ", " + name 
-					+ "                      $" + cost);
-			}
-			else {
-				print.add(name + "                   " + v.get(0).getName() + ", " 
-					+ prev + ", " + name + "                      $" + cost);
-			}
-			
+			if( !f.isPrinted() ) {
+
+				//System.out.println(f.getName());
+				v.get(i).setPrinted();
+				
+				String name = f.getName().replaceAll("\\s", ""); 
+				City prev = f.getPrevious();
+				String prevName = prev.getName().replaceAll("\\s", "");
+				String cost = f.getCost().toString();
+				Vector<String> routes = new Vector<String>();
+				
+				//check if direct flight from origin city
+				if ( prevName.equals(originCity)) {
+					print.add(name + "               " + prevName + ", " + name 
+						+ "                   $" + cost);
+				}
+				else {
+					
+					// count = how many flights away from origin city 
+					int count = 1; 
+					Integer total = f.getCost();
+					routes.add(name); 
+
+					while( !prevName.equals(originCity) ) {
+						
+						routes.add(prevName);
+						total += prev.getCost();
+						
+						//update prevName 
+						prev = prev.getPrevious();
+						prevName = prev.getName().replaceAll("\\s", "");
+						
+						//System.out.println(prevName);
+						
+					//	if(prev.getPrevious() != null){
+							//update prevName 
+//							prev = prev.getPrevious();
+//							prevName = prev.getName().replaceAll("\\s", "");
+							 
+				//		}
+						
+					}
+					
+					String route = originCity + ", ";
+//					System.out.println(routes.size());
+//					System.out.println("Route: " + route);
+					
+					for (int j = routes.size()-1; j > 0; j--) {
+						
+						System.out.println(routes.get(j));
+						route = route + routes.get(j) + ", ";
+					}
+					
+					route = route + routes.get(0); 
+					
+					String totalCost = total.toString();
+					
+					if(routes.size() == 2) {
+						print.add(name + "               " + route + "                $" + totalCost);
+					}
+					else if(routes.size() == 3) {
+						print.add(name + "               " + route + "             $" + totalCost);
+					}
+					else if (routes.size() > 3){
+						print.add(name + "               " + route + "          $" + totalCost);
+					}
+				}
+			}		
 		}
 		
 		return print;

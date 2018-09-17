@@ -11,6 +11,7 @@ public class City {
 	String name;
 	City previous; 
 	Integer flightCost; 
+	Boolean printed = false; 
 
 	
 	public void make(String n, City p, Integer c){
@@ -32,4 +33,12 @@ public class City {
 		return flightCost;
 	}		
 	
+	public void setPrinted () {
+		printed = true;
+	}		
+	
+
+	public Boolean isPrinted () {
+		return printed;
+	}
 }
