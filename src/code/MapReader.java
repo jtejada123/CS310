@@ -56,7 +56,7 @@ public class MapReader {
 		BufferedWriter out = null; 
 		FileWriter writer = null; 
 		Parser p = new Parser(); 
-		Vector<Flight> display = null; 
+		Vector<City> display = null; 
 		
 		display = p.parse(mapInfo); 
 		
