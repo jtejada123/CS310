@@ -56,9 +56,7 @@ public class MapReader {
 		BufferedWriter out = null; 
 		FileWriter writer = null; 
 		Parser p = new Parser(); 
-		Vector<City> display = null; 
-		
-		display = p.parse(mapInfo); 
+		Vector<String> output = p.parse(mapInfo); 
 		
 		try {
 			writer = new FileWriter(file);
@@ -66,17 +64,11 @@ public class MapReader {
 			
 /*______________Output File Display_______________________*/
 			
-		out.write("Destination    Flight Route from " + mapInfo.get(0) + "    Total Cost");
-		out.newLine();	
-			
-//		int i = 0; 
-//		while( i < display.size() ) {
-//			
-//			out.write("");
-//			i++; 
-//		}
-//		
-			
+			for(int i = 0; i < output.size(); i++ ) {
+				out.write(output.get(i));
+				out.newLine();
+			}
+		
 /*______________Output File Display_______________________*/
 	
 		} finally {

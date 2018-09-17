@@ -1,1 +1,11 @@
 Destination    Flight Route from P    Total Cost
+W                   P, P, W                      $200
+R                   P, P, R                      $300
+X                   P, R, X                      $200
+X                   P, Q, X                      $375
+S                   P, W, S                      $250
+T                   P, S, T                      $300
+W                   P, T, W                      $350
+Y                   P, W, Y                      $500
+Z                   P, Y, Z                      $450
+R                   P, Y, R                      $600

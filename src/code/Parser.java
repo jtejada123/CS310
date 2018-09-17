@@ -5,114 +5,70 @@ import java.util.*;
 public class Parser {
 	
 	Vector<City> cities = new Vector<City> (); 
-
    		
-	public Vector<City> parse ( Vector<String> data ) {
+	public Vector<String> parse ( Vector<String> data ) {
 		
 		//check if empty
 		if(data.isEmpty()) {
-			return cities; 
+			return null; 
 		}
 		
 		//save origin city in cities vector
-		String line = data.get(0);
-		City c = new City(line, null, "0"); 
+		String originCity = data.get(0); 
+		City c = new City();
+		c.make(originCity, null, 0);
 		cities.add(c);
 		
-		//start at second line of input file 
-//		for(int i = 1; i < data.size(); i++) {
+		String flight;
+		
+		// Loop through data to initialize City objects and 
+		// store all direct flights into cities vector... 
+		// Start at second line of input file (skip origin city on first line) 
+		for(int i = 1; i < data.size(); i++) {
 			
-			line = data.get(1);
+			flight = data.get(i);
 			
-			String departureCityString = line.substring(0, 1);
-			String destinationCity = line.substring(2, 3); 
-			String flightCost = line.substring(4); 
+			String departureCity = flight.substring(0, 1);
+			// turn string to object  
+			//City departureCity = getCity(departureCityString, cities);
+			String destinationCity = flight.substring(2, 3); 
+			Integer flightCost = Integer.parseInt(flight.substring(4).replaceAll("\\s", ""));
+			City dep = new City();
+			City dest = new City();
+					//replaceAll("\\s", ""); 
 			
-			City departureCity = getCity(departureCityString, cities);
-			
-			
-			
-			c = new City(destinationCity, departureCity, flightCost);
-			
-			System.out.println("Total Cost: " + c.getCost());
-
-			
-//			City c1 = new City(departureCity); 
-//			City c2 = new City(arrivalCity); 
-			
-//			for(int j = 0; j < visitedLocations.size(); j++) {
+			// if departure city isn't in 'cities' vector yet then add it, otherwise skip
+//	 		if ( getCity(departureCity, cities) == null) {
+//	 			
 //				
-//				if( !visitedLocations.contains(departureCity)) {
-//					visitedLocations.add(departureCity);
-//				}
-//				else if( !visitedLocations.contains(arrivalCity)) {
-//					visitedLocations.add(arrivalCity);
-//					City c1 = new City(arrivalCity); 
-//					c.setPrevious(departureCity);
-//					cities.add(c1);
-//					
-//				}
-//			}
-//		}
-//		
-//		//get first line of input file, store into locations vector
-//		String line = data.get(0);
-//		locations.add(line); 
-//		
-//		String originCity = data.get(0);
-//				
-//		// store all possible locations in a vector (used in next for loop)
-//		//start at second line of input file (skip origin city) 
-//		for(int i = 1; i < data.size(); i++) {
-//			
-//			line = data.get(i);
-//			
-//			String departureCity = line.substring(0, 1); 
-//			String arrivalCity = line.substring(2, 3);  
-//			
-//			//record flights departing from origin city 
-//			if (departureCity == originCity) {
-//				Flight f = new Flight(arrivalCity, originCity + ", " + arrivalCity, line.substring(4)); 
-//				displayVec.add(f);
-//				locations.add(arrivalCity);
-//			}
-//			else {
-//				if ( locations.contains(departureCity) ){
-//					
-//				}
-//			}
-//			
-//			
-//			if ( !locations.contains(departureCity) ){
-//				locations.add(departureCity); 
-//			}
-//			if ( !locations.contains(arrivalCity) ){
-//				locations.add(arrivalCity); 
-//			}									
-//			//Flight f = new Flight(data.get(0), data.get(0), 1 ); 
-//		
-//		}	
-//		
-//		//start creating flights 
-//		//start at second line of input file (skip origin city) 
-//		for(int i = 1; i < data.size(); i++) {
-//			
-//			line = data.get(i);
-//			String departureCity = line.substring(0, 1); 
-//			String arrivalCity = line.substring(2, 3);  
-//			
-//			if ( !locations.contains(departureCity) ){
-//				DepartureCity temp = new DepartureCity(departureCity); 
-//				temp.addDestination(arrivalCity);
-//			}
-//			
-//		
-//											
-//			
-//			//Flight f = new Flight(data.get(0), data.get(0), 1 ); 
-//				
-//		}
-		return cities;
+//				//initialize new City object and add to cities vector
+//				c = new City(departureCity, null, flightCost, direct);
+//				cities.add(c);
+//	 		
+//	 		}
+	 		
+	 		// if destination city doesn't exist yet, create it 
+			if ( getCity(destinationCity, cities) == null ) {
+				
+				
+				// Check if dep is origin city
+				if( getCity(departureCity, cities) == null ) {
+					dep.make(departureCity, null, 0);
+				}
+				else {
+					dep = getCity(departureCity, cities);
+				}
+				
+				
+				dest.make(destinationCity, dep, flightCost);
+				cities.add(dest);
+			}
+			
+		}
+		
+		Vector<String> output = printInfo(cities);
+		
+		return output;
 	}
 	
 	// return City object given its name and a vector of City objects to search through 
@@ -123,10 +79,46 @@ public class Parser {
 			if (s == vec.get(i).getName()){
 				return vec.get(i); 
 			}
-		
+//			else {
+//				if (vec.get(i).getPrevious() != null) {
+//					return new City (s, vec.get(i).getPrevious(), vec.get(i).getCost()); 
+//				}
+//				else {
+//					return new City (s, null, vec.get(i).getCost()); 
+//				}
+//			}
 		}
 		
 		return null; 
+		
+	}
+	
+	public Vector<String> printInfo (Vector <City> v){
+		
+		Vector<String> print = new Vector<String>(); 
+		
+		print.add("Destination    Flight Route from "+ v.get(0).getName() + "    Total Cost");
+		
+		
+		for (int i = 1; i < v.size(); i++) {
+			
+			City f = v.get(i); 
+			String name = f.getName(); 
+			String prev = f.getPrevious().getName();
+			String cost = f.getCost().toString();
+			
+			if (prev == v.get(0).getName()) {
+				print.add(name + "                   " + prev + ", " + name 
+					+ "                      $" + cost);
+			}
+			else {
+				print.add(name + "                   " + v.get(0).getName() + ", " 
+					+ prev + ", " + name + "                      $" + cost);
+			}
+			
+		}
+		
+		return print;
 		
 	}
 	

@@ -8,14 +8,16 @@ public class City {
  * flightCost = cost of flying from 'previous' city to this city  
  */
 	
-	String name = "";
-	City previous = null; 
-	Integer flightCost = 0;
+	String name;
+	City previous; 
+	Integer flightCost; 
+
 	
-	City (String n, City p, String c) {
+	public void make(String n, City p, Integer c){
+		
 		name = n; 
-		previous = p; 
-		flightCost = Integer.parseInt(c);
+		previous = p;
+		flightCost = c; 	
 	}
 	
 	public City getPrevious () {
