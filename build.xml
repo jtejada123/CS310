@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project default="run" name="Project1">
-	<target name="run" depends="compile">
-	</target>
-	<target name="compile">
-		<javac includeantruntime="false" srcdir="./src" destdir="staging" classpath="C:/Applications/Eclipse.app/Contents/Eclipse/plugins/org.junit_4.12.0.v201504281640/junit.jar" />
+<project name="Project1" >
+	
+	<description>
+		Running JUnit Tests through Ant 
+	</description>
+	
+	<!-- Project Structure -->
+		<property name="jdk.version" value="1.8" />
+		<property name="Project1" value="JavaProject" />
+		<property name="src.dir" location="src" />
+		<property name="test.dir" location="src" />
+	
+	<!-- Compile Java source from ${src.dir} -->
+	<target name="compile" depends="init" description="compile source code">
+		<javac includeantruntime="false" srcdir="./src" destdir="staging">  
+		
+		</javac>
+			<classpath path= "C:/Applications/Eclipse.app/Contents/Eclipse/plugins/org.junit_4.12.0.v201504281640/junit.jar" />
 		
 		<junit>
 			<test name="tests.MapReaderTests" />
@@ -16,4 +29,44 @@
 		</junit>
 		
 	</target>
+	
+	<!-- Run jUnit -->
+		<target name="junit" depends="compile">
+
+		  <junit printsummary="yes" haltonfailure="no">
+		
+			<classpath refid="test.path" />
+			<classpath location="${web.classes.dir}" />
+				
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${report.dir}">
+				<fileset dir="${test.dir}">
+					<include name="**/*Test*.java" />
+				</fileset>
+			</batchtest>
+				
+		  </junit>
+		</target>
+
+	<target name="run" depends="compile">
+		<java classname= "code.MapReader">
+			<arg value="${arg0}" />
+			<arg value="${arg1}" />
+		</java>
+	</target>
+	
+	<!-- Create folders -->
+	<target name="init">
+		<mkdir dir="${src.dir}" />
+	</target>
+
+	<!-- Delete folders -->
+	<target name="clean" description="clean up">
+		<delete dir="${web.classes.dir}" />
+		<delete dir="${report.dir}" />
+	</target>
+
+	<target name="main" depends="junit" />
+	
+	
 </project> 
