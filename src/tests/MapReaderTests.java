@@ -16,7 +16,15 @@ public class MapReaderTests {
 		MapReader mr = new MapReader();
 		Vector <String> file = MapReader.readFile("inputfile.txt");
 		assertEquals(file.get(0), "P");
+	}
+	
+	@Test
+	public void testWriteFile() throws IOException {
 		
+		MapReader mr = new MapReader();
+		Vector <String> mapInfo = MapReader.readFile("inputfile.txt");
+		
+		assertTrue( MapReader.writeFile("outputfile.txt", mapInfo) == true);
 	}
 	
 

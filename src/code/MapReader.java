@@ -17,7 +17,12 @@ public class MapReader {
 		String outputFile = args[1]; 
 		Vector<String> flightInfo = readFile(inputFile);  
 		
-		writeFile(outputFile, flightInfo); 
+		if ( writeFile(outputFile, flightInfo) ) {
+			return;
+		}
+		else {
+			System.out.println("Error: Could not write file");
+		}
 		
 		
 	}
@@ -51,7 +56,7 @@ public class MapReader {
 	}
 	
 	// writes output file
-	public static void writeFile(String file, Vector<String> mapInfo) throws IOException {
+	public static Boolean writeFile(String file, Vector<String> mapInfo) throws IOException {
 		
 		BufferedWriter out = null; 
 		FileWriter writer = null; 
@@ -76,5 +81,6 @@ public class MapReader {
 				out.close();
 			}
 		}
+		return true;
 	}
 }

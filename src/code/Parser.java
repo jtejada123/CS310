@@ -5,7 +5,8 @@ import java.util.*;
 public class Parser {
 	
 	Vector<City> cities = new Vector<City> (); 
-   		
+   	
+	//parse through the input file and return a vector of Strings to writeFile for output
 	public Vector<String> parse ( Vector<String> data ) {
 		
 		//check if empty
@@ -34,17 +35,6 @@ public class Parser {
 			String destinationCity = flight.substring(2, 3); 
 			Integer flightCost = Integer.parseInt(flight.substring(4).replaceAll("\\s", ""));
 			City dep;
-			//replaceAll("\\s", ""); 
-			
-			// if departure city isn't in 'cities' vector yet then add it, otherwise skip
-//	 		if ( getCity(departureCity, cities) == null) {
-//	 			
-//				
-//				//initialize new City object and add to cities vector
-//				c = new City(departureCity, null, flightCost, direct);
-//				cities.add(c);
-//	 		
-//	 		}
 	 		
 	 		// if destination city doesn't exist yet, create it 
 			if ( getCity(destinationCity, cities) == null ) {
@@ -79,20 +69,18 @@ public class Parser {
 			if ( s.equals(vec.get(i).getName()) ){
 				return vec.get(i); 
 			}
-//			else {
-//				if (vec.get(i).getPrevious() != null) {
-//					return new City (s, vec.get(i).getPrevious(), vec.get(i).getCost()); 
-//				}
-//				else {
-//					return new City (s, null, vec.get(i).getCost()); 
-//				}
-//			}
 		}
 		
 		return null; 
 		
 	}
 	
+	//return the cities vector
+	public Vector<City> getVec() {
+		return cities;
+	}
+		
+	//Store the output file info line by line into a vector of Strings
 	public Vector<String> printInfo (Vector <City> v){
 		
 		Vector<String> print = new Vector<String>(); 
@@ -104,13 +92,9 @@ public class Parser {
 		for (int i = 1; i < v.size(); i++) {
 			
 			City f = v.get(i); 
-//			System.out.println("Name: " + f.getName());
-//			System.out.println("Previous: " + f.getPrevious().getName());
-
-			
+		
 			if( !f.isPrinted() ) {
 
-				//System.out.println(f.getName());
 				v.get(i).setPrinted();
 				
 				String name = f.getName().replaceAll("\\s", ""); 
@@ -125,9 +109,7 @@ public class Parser {
 						+ "                   $" + cost);
 				}
 				else {
-					
-					// count = how many flights away from origin city 
-					int count = 1; 
+
 					Integer total = f.getCost();
 					routes.add(name); 
 
@@ -138,26 +120,13 @@ public class Parser {
 						
 						//update prevName 
 						prev = prev.getPrevious();
-						prevName = prev.getName().replaceAll("\\s", "");
-						
-						//System.out.println(prevName);
-						
-					//	if(prev.getPrevious() != null){
-							//update prevName 
-//							prev = prev.getPrevious();
-//							prevName = prev.getName().replaceAll("\\s", "");
-							 
-				//		}
+						prevName = prev.getName().replaceAll("\\s", "");		
 						
 					}
 					
 					String route = originCity + ", ";
-//					System.out.println(routes.size());
-//					System.out.println("Route: " + route);
 					
 					for (int j = routes.size()-1; j > 0; j--) {
-						
-						System.out.println(routes.get(j));
 						route = route + routes.get(j) + ", ";
 					}
 					
